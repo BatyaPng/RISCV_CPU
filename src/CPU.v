@@ -13,17 +13,18 @@ wire [2:0] ALUControl;
 
 controller cntl(Instr[6:0], Instr[14:12], 
                 Instr[30], Zero,
-                ResultSrc, MemWrite, PCsrc,
+                ResultSrc, MemWrite, PCSrc,
                 ALUSrc, RegWrite, Jump,
                 ImmSrc, ALUControl
 );
 
 datapath dp(clk, reset,
-            ResultSrc, PCsrc,
+            ResultSrc, PCSrc,
             ALUSrc, RegWrite,
             ImmSrc, ALUControl,
             Zero, PC, Instr,
             ALUResult, WriteData,
             ReadData
 );
+
 endmodule
