@@ -5,7 +5,7 @@ module top(input logic clk, reset,
     
 logic [31:0] PC, Instr, ReadData;
 
-riscvsingle rvsingle(clk, reset, PC, Instr, 
+cpu cpu(clk, reset, PC, Instr, 
                      MemWrite, DataAdr, 
                      WriteData, ReadData);
 
