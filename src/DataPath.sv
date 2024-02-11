@@ -9,8 +9,8 @@ module datapath(input clk, reset,
 
                 output Zero,
                 output [31:0] PC,
-                output [31:0] ALUResult, WriteData,
-)
+                output [31:0] ALUResult, WriteData
+);
 
 wire [31:0] PCNext, PCPlus4, PCTarget;
 wire [31:0] ImmExt;

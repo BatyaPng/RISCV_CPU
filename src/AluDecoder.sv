@@ -3,7 +3,7 @@ module aludec(input opb5,
               input funct7b5,
               input [1:0] ALUOp,
               
-              output [2:0] ALUControl
+              output logic [2:0] ALUControl
 );
 
 wire RtypeSub;

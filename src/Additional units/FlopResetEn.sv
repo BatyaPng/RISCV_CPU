@@ -1,7 +1,7 @@
-module flopr #(parameter WIDTH = 8
+module flopren #(parameter WIDTH = 8
 )
 (
-    input clk, reset, en
+    input clk, reset, en,
     input [WIDTH - 1:0] d,
 
     output [WIDTH - 1:0] q 
