@@ -21,10 +21,10 @@ end
 // проверка результата
 always @(negedge clk) begin
     if(MemWrite) begin
-        if(DataAdr = = = 100 & WriteData  = = = 25) begin
+        if(DataAdr === 100 & WriteData  === 25) begin
                 $display("Проверка успешно пройдена");
                 $stop;
-            end else if (DataAdr != = 96) begin
+            end else if (DataAdr !== 96) begin
                 $display("Обнаружена ошибка");
                 $stop;
             end
