@@ -1,2 +1,8 @@
+SRC = $(wildcard ../src/*.sv) 
+
+ASRC = $(wildcard ../src/AdditionalUnits/*.sv)
+
+TST = $(wildcard *.sv)
+
 all:
-	iverilog -g2005-sv DataMemory.sv InstructionMemory.sv Top.sv Test.sv ../src/CPU.sv ../src/DataPath.sv ../src/Controller.sv ../src/MainDecoder.sv ../src/SignExtende.sv ../src/AluDecoder.sv ../src/Additional\ units/Adder.sv ../src/Additional\ units/FlopReset.sv ../src/Additional\ units/FlopResetEn.sv ../src/Additional\ units/Multiplexer2.sv ../src/Additional\ units/Multiplexer3.sv
+	iverilog -g2005-sv $(SRC) $(ASRC) $(TST)
