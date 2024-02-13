@@ -1,13 +1,13 @@
-module aludec(input opb5,
-              input [2:0] funct3,
-              input funct7b5,
-              input [1:0] ALUOp,
-              
-              output logic [2:0] ALUControl
+module aludec(
+    input opb5,
+    input [2:0] funct3,
+    input funct7b5,
+    input [1:0] ALUOp,
+    
+    output reg [2:0] ALUControl
 );
 
 wire RtypeSub;
-
 assign RtypeSub = funct7b5 & opb5;
 
 always_comb begin

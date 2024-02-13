@@ -1,6 +1,8 @@
-module extend(input [31:7] instr,
-              input logic [1:0] immsrc,
-              output reg [31:0] immext
+module extend(
+    input [31:7] instr,
+    input logic [1:0] immsrc,
+    
+    output reg [31:0] immext
 );
 
 
