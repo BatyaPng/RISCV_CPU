@@ -25,9 +25,9 @@ wire [31:0] Result;
 flopr #(32) pcreg(
     .clk(clk),
     .reset(reset), 
-    .d(PC),
+    .d(PCNext),
 
-    .q(PCNext)
+    .q(PC)
 );
 
 adder pcadd4(
