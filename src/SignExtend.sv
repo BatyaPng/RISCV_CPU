@@ -6,10 +6,10 @@ module extend(
 );
 
 
-wire type_i;
-wire type_s;
-wire type_b;
-wire type_j;
+wire [31:0] type_i;
+wire [31:0] type_s;
+wire [31:0] type_b;
+wire [31:0] type_j;
 
 assign type_i = {{20{instr[31]}}, instr[31:20]};
 assign type_s = {{20{instr[31]}}, instr[31:25], instr[11:7]};

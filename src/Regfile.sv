@@ -11,7 +11,7 @@ module regfile (
 );
 
 reg [31:0] rf [31:0];
-    
+
 always_ff @(posedge clk)
     if (we3) 
         rf[a3] <= wd3;

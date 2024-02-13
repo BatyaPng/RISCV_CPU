@@ -29,7 +29,7 @@ always @(negedge clk) begin
     
     cnt <= cnt + 32'b1;
     
-    $display("%d", cnt);
+    //$display("%d", cnt);
     
     if(cnt == 1000) begin
         $finish;
