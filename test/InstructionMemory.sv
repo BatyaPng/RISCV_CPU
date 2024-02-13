@@ -1,8 +1,11 @@
-module imem(input logic [31:0] a,
-            output wire [31:0] rd
+
+module imem(
+    input [31:0] a,
+            
+    output [31:0] rd
 );
 
-logic [31:0] RAM[63:0];
+reg [31:0] RAM [63:0];
 
 initial
     $readmemh("riscvtest.txt", RAM);

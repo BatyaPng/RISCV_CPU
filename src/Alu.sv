@@ -1,6 +1,7 @@
 module alu (
     input [2:0] ALUControl,
-    input [31:0] SrcA, SrcB,
+    input [31:0] SrcA, 
+    input [31:0] SrcB,
 
     output Zero,
     output reg [31:0] ALUResult
