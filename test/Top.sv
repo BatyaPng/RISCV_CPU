@@ -3,7 +3,7 @@ module top(input logic clk, reset,
            output logic MemWrite
 );
     
-wire [31:0] PC, Instr, ReadData;
+logic [31:0] PC, Instr, ReadData;
 logic [31:0] ReadData2;
 
 cpu cpu(

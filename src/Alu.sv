@@ -1,5 +1,5 @@
 module alu (
-    input [2:0] ALUControl,
+    input [4:0] ALUControl,
     input [31:0] SrcA, 
     input [31:0] SrcB,
 
@@ -9,11 +9,20 @@ module alu (
 
 always_comb begin
     case (ALUControl)
-        3'b000: ALUResult = SrcA + SrcB;            // Addition
-        3'b001: ALUResult = SrcA - SrcB;            // Substraction
-        3'b010: ALUResult = SrcA & SrcB;            // And
-        3'b011: ALUResult = SrcA | SrcB;            // Or
-        3'b101: ALUResult = 1 ? SrcA < SrcB : 0;    //SLT 
+        //Arifmetic
+        4'b1000: ALUResult <= SrcA - SrcB;           // Substraction
+        4'b0000: ALUResult <= SrcA + SrcB;           // Addition
+        //logic
+        4'b0111: ALUResult <= SrcA & SrcB;           // AND
+        4'b0110: ALUResult <= SrcA | SrcB;           // OR
+        4'b0100: ALUResult <= SrcA ^ SrcB;           // XOR
+        //Compare
+        4'b0010: ALUResult <= $signed(SrcA) < $signed(SrcB)? 1 : 0;       //SLT
+        4'b0011: ALUResult <= $unsigned(SrcA) < $unsigned(SrcB)? 1 : 0;   //SLTU
+        //shift
+        4'b0001: ALUResult <= SrcA << SrcB;           //SLL
+        4'b0101: ALUResult <= SrcA >> SrcB;           //SRL
+        4'b1101: ALUResult <= $signed(SrcA) >> SrcB;  //SRA
     endcase
 end
 
