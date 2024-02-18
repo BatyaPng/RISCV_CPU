@@ -11,7 +11,7 @@ module controller(
     output RegWrite, 
     output Jump,
     output [1:0] ImmSrc,
-    output [2:0] ALUControl
+    output [3:0] ALUControl
 );
 
 wire [1:0] ALUOp;
@@ -31,7 +31,6 @@ maindec md(
 );
 
 aludec ad(
-    .opb5(op[5]),
     .funct3(funct3),
     .funct7b5(funct7b5),
     .ALUOp(ALUOp),

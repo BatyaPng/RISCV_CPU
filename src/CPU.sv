@@ -12,7 +12,7 @@ module cpu(
 
 wire ALUSrc, RegWrite, Jump, Zero;
 wire [1:0] ResultSrc, ImmSrc;
-wire [2:0] ALUControl;
+wire [3:0] ALUControl;
 
 controller cntl(
     .op(Instr[6:0]), 

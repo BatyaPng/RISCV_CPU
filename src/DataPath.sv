@@ -6,7 +6,7 @@ module datapath(
     input ALUSrc,
     input RegWrite,
     input [1:0] ImmSrc,
-    input [2:0] ALUControl,
+    input [3:0] ALUControl,
     input [31:0] Instr,
     input [31:0] ReadData,
 
