@@ -31,6 +31,7 @@ maindec md(
 );
 
 aludec ad(
+    .op5(op[5]),
     .funct3(funct3),
     .funct7b5(funct7b5),
     .ALUOp(ALUOp),
