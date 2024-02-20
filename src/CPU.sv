@@ -11,7 +11,8 @@ module cpu(
 );
 
 wire ALUSrc, RegWrite, Jump, Zero;
-wire [1:0] ResultSrc, ImmSrc;
+wire [1:0] ResultSrc;
+wire [2:0] ImmSrc;
 wire [3:0] ALUControl;
 
 controller cntl(
