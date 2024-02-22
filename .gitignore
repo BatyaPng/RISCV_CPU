@@ -1,2 +1,5 @@
 test/a.out
 test/out.vcd
+ASS.png
+unit_tests/ALU/a.out
+unit_tests/ALU/out.vcd
