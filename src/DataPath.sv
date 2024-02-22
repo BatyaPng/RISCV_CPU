@@ -5,12 +5,12 @@ module datapath(
     input PCSrc, 
     input ALUSrc,
     input RegWrite,
-    input [1:0] ImmSrc,
-    input [2:0] ALUControl,
+    input [2:0] ImmSrc,
+    input [3:0] ALUControl,
     input [31:0] Instr,
     input [31:0] ReadData,
 
-    output Zero,
+    output LogOut,
     output [31:0] PC,
     output [31:0] ALUResult, 
     output [31:0] WriteData
@@ -52,6 +52,14 @@ mux2 #(32) pcmux(
     .y(PCNext)
 );
 
+BranchLogic BranchLog(
+    .ALUControl(ALUControl),
+    .SrcA(SrcA),
+    .SrcB(SrcB),
+    
+    .LogOut(LogOut)
+);
+
 // Register file logic
 regfile rf(
     .clk(clk), 
@@ -90,10 +98,11 @@ alu alu(
     .ALUResult(ALUResult)
 );
 
-mux3 #(32) resultmux(
+mux4 #(32) resultmux(
     .d0(ALUResult),
     .d1(ReadData),
     .d2(PCPlus4),
+    .d3(PCTarget),
     .s(ResultSrc),
     
     .y(Result)
