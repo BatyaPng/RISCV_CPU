@@ -90,10 +90,11 @@ alu alu(
     .ALUResult(ALUResult)
 );
 
-mux3 #(32) resultmux(
+mux4 #(32) resultmux(
     .d0(ALUResult),
     .d1(ReadData),
     .d2(PCPlus4),
+    .d4(PCTarget),
     .s(ResultSrc),
     
     .y(Result)

@@ -28,8 +28,8 @@ always_comb begin
         7'b1101111: controls = 12'b1_011_0_0_10_0_00_1; // JAL
         
         7'b1100111: controls = 12'b1_000_0_0_10_0_00_1; // JALR
-        7'b0010111: controls = 12'b1_100_0_0_10_0_00_1; // AUIPC
-        7'b0110111: controls = 12'b1_100_0_0_10_0_00_1; // LUI
+        7'b0010111: controls = 12'b1_100_0_0_11_0_00_0; // AUIPC
+        7'b0110111: controls = 12'b1_100_1_0_00_0_11_0; // LUI
         //some another time
         7'b1110011: controls = 12'b1_011_0_0_10_0_00_1; // SYSTEM
         7'b0001111: controls = 12'b1_011_0_0_10_0_00_1; // MISC-MEM
