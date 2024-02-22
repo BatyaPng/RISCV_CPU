@@ -94,7 +94,7 @@ mux4 #(32) resultmux(
     .d0(ALUResult),
     .d1(ReadData),
     .d2(PCPlus4),
-    .d4(PCTarget),
+    .d3(PCTarget),
     .s(ResultSrc),
     
     .y(Result)
