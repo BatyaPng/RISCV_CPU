@@ -2,7 +2,7 @@ module controller(
     input [6:0] op,
     input [2:0] funct3,
     input funct7b5,
-    input Zero,
+    input LogOut,
 
     output [1:0] ResultSrc,
     output MemWrite,
@@ -39,6 +39,8 @@ aludec ad(
     .ALUControl(ALUControl)
 );
 
-assign PCSrc = Branch & Zero | Jump;
+assign PCSrc = Branch & LogOut | Jump;
+
+
 
 endmodule

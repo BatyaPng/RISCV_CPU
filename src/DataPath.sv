@@ -10,7 +10,7 @@ module datapath(
     input [31:0] Instr,
     input [31:0] ReadData,
 
-    output Zero,
+    output LogOut,
     output [31:0] PC,
     output [31:0] ALUResult, 
     output [31:0] WriteData
@@ -50,6 +50,14 @@ mux2 #(32) pcmux(
     .s(PCSrc),
 
     .y(PCNext)
+);
+
+BranchLogic BranchLog(
+    .ALUControl(ALUControl),
+    .SrcA(SrcA),
+    .SrcB(SrcB),
+    
+    .LogOut(LogOut)
 );
 
 // Register file logic
