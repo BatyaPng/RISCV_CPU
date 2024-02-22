@@ -5,4 +5,4 @@ ASRC = $(wildcard ../src/AdditionalUnits/*.sv)
 TST = $(wildcard *.sv)
 
 all:
-	iverilog -g2005-sv -pfileline=1 $(SRC) $(ASRC) $(TST)
+	iverilog -g2009 -pfileline=1 $(SRC) $(ASRC) $(TST)

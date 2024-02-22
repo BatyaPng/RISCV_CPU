@@ -9,20 +9,22 @@ module alu (
 
 always_comb begin
     case (ALUControl)
-        //Arifmetic
-        4'b1000: ALUResult <= SrcA - SrcB;           // Substraction
-        4'b0000: ALUResult <= SrcA + SrcB;           // Addition
-        //logic
-        4'b0111: ALUResult <= SrcA & SrcB;           // AND
-        4'b0110: ALUResult <= SrcA | SrcB;           // OR
-        4'b0100: ALUResult <= SrcA ^ SrcB;           // XOR
+        //Arithmetic
+        4'b1000: ALUResult <= SrcA - SrcB;                                // Substraction
+        4'b0000: ALUResult <= SrcA + SrcB;                                // Addition
+        
+        //Logic
+        4'b0111: ALUResult <= SrcA & SrcB;                                // AND
+        4'b0110: ALUResult <= SrcA | SrcB;                                // OR
+        4'b0100: ALUResult <= SrcA ^ SrcB;                                // XOR
         //Compare
         4'b0010: ALUResult <= $signed(SrcA) < $signed(SrcB)? 1 : 0;       //SLT
         4'b0011: ALUResult <= $unsigned(SrcA) < $unsigned(SrcB)? 1 : 0;   //SLTU
-        //shift
-        4'b0001: ALUResult <= SrcA << SrcB;           //SLL
-        4'b0101: ALUResult <= SrcA >> SrcB;           //SRL
-        4'b1101: ALUResult <= $signed(SrcA) >> SrcB;  //SRA
+
+        //Shift
+        4'b0001: ALUResult <= SrcA << SrcB;                               //SLL
+        4'b0101: ALUResult <= SrcA >> SrcB;                               //SRL
+        4'b1101: ALUResult <= $signed(SrcA) >> SrcB;                      //SRA
     endcase
 end
 
