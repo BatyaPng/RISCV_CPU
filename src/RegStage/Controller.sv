@@ -1,8 +1,11 @@
+`include "Controller/AluDecoder.sv"
+`include "Controller/MainDecoder.sv"
+
+
 module controller(
     input [6:0] op,
     input [2:0] funct3,
     input funct7b5,
-    input LogOut,
 
     output [1:0] ResultSrc,
     output MemWrite,
@@ -10,12 +13,13 @@ module controller(
     output ALUSrc,
     output RegWrite, 
     output Jump,
+    output Branch,
     output [2:0] ImmSrc,
     output [3:0] ALUControl
 );
 
 wire [1:0] ALUOp;
-wire Branch;
+//wire Branch;
 
 maindec md(
     .op(op),
@@ -39,7 +43,7 @@ aludec ad(
     .ALUControl(ALUControl)
 );
 
-assign PCSrc = Branch & LogOut | Jump;
+//assign PCSrc = Branch & LogOut | Jump;
 
 
 
