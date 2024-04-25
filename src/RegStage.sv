@@ -41,7 +41,6 @@ module RegStage
 
 );
 
-
 //RegFile
 assign w_R_1_num = Instr[19:15];
 assign w_R_2_num = Instr[24:20];
