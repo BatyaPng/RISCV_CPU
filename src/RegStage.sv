@@ -37,7 +37,8 @@ module RegStage
     output reg RegWrite, 
     output reg Jump,
     output reg Branch,
-    output reg [3:0] ALUControl
+    output reg [3:0] ALUControl,
+    output reg MemRead
 
 );
 
@@ -97,6 +98,7 @@ wire w_ALUSrc;
 wire w_RegWrite;
 wire w_Jump;
 wire w_Branch;
+wire w_MemRead;
 
 wire [2:0] w_ImmSrc;
 wire [3:0] w_ALUControl;
@@ -113,7 +115,8 @@ maindec Decoder(
     .Jump(w_Jump),
     .Branch(w_Branch)
     .ImmSrc(w_ImmSrc),
-    .ALUControl(w_ALUControl)
+    .ALUControl(w_ALUControl),
+    .MemRead(w_MemRead)
 )
 
 
@@ -126,6 +129,7 @@ always @(posedge clk) begin
         Jump <= 0;
         Branch <= 0;
         ALUControl <= 0;
+        MemRead <= 0;
     end else begin
         ResultSrc <= w_ResultSrc;
         MemWrite <= w_MemWrite;
@@ -134,6 +138,7 @@ always @(posedge clk) begin
         Jump <= w_Jump;
         Branch <= w_Branch;
         ALUControl <= w_ALUControl;
+        MemRead <= w_MemRead;
     end
 end
 

@@ -15,7 +15,8 @@ module controller(
     output Jump,
     output Branch,
     output [2:0] ImmSrc,
-    output [3:0] ALUControl
+    output [3:0] ALUControl,
+    output MemRead
 );
 
 wire [1:0] ALUOp;
@@ -31,7 +32,8 @@ maindec md(
     .RegWrite(RegWrite),
     .Jump(Jump),
     .ImmSrc(ImmSrc),
-    .ALUOp(ALUOp)
+    .ALUOp(ALUOp),
+    .MemRead(MemRead)
 );
 
 aludec ad(
