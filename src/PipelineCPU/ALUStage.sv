@@ -49,7 +49,8 @@ module ALUStage
     output reg [1:0] ResultSrc,
     output reg MemWrite, 
     output reg RegWrite,
-    output reg MemRead
+    output reg MemRead,
+    output reg [2:0] ALUControl
 );
 
 //ALU
@@ -143,11 +144,13 @@ always @(posedge clk) begin
         ResultSrc <= 0;
         MemWrite <= 0;
         MemRead <= 0;
+        ALUControl <= 0;
     end else begin
         RegWrite <= w_RegWrite;
         ResultSrc <= w_ResultSrc;
         MemWrite <= w_MemWrite;
         MemRead <= w_MemRead;
+        ALUControl <= w_ALUControl[2:0];
     end
 end
 

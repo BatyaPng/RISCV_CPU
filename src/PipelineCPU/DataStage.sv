@@ -23,7 +23,6 @@ module DataStage
     input wire w_RegWrite, 
     input wire w_MemRead,
 
-
     output reg [1:0] ResultSrc,
     output reg RegWrite
 );
