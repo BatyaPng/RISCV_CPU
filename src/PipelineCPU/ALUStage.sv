@@ -7,6 +7,7 @@ module ALUStage
 (
     input wire reset,
     input wire clk,
+    input wire EN,
 
     input wire [31:0] w_PC,
     input wire [31:0] w_PC_plus_4,
@@ -103,7 +104,7 @@ always @(posedge clk) begin
         DR <= 0;
         DR_num <= 0;
         WriteData <= 0;
-    end else begin
+    end else if(EN) begin
         DR <= w_ALUResult;
         DR_num <= w_DR_num;
         WriteData <= w_PreSrcB;
@@ -129,7 +130,7 @@ always @(posedge clk) begin
     if(reset)begin
         PC <= 0;
         PC_plus_4 <= 0;
-    end else begin
+    end else if(EN) begin
         PC <= w_PC;
         PC_plus_4 <= w_PC_plus_4;
     end
@@ -145,7 +146,7 @@ always @(posedge clk) begin
         MemWrite <= 0;
         MemRead <= 0;
         ALUControl <= 0;
-    end else begin
+    end else if(EN) begin
         RegWrite <= w_RegWrite;
         ResultSrc <= w_ResultSrc;
         MemWrite <= w_MemWrite;

@@ -6,6 +6,8 @@ module RegStage
     input wire reset,
     input wire clk,
 
+    input wire EN,
+
     input wire [31:0] Instr,
     input wire [31:0] w_PC,
     input wire [31:0] w_PC_plus_4,
@@ -54,7 +56,7 @@ always @(posedge clk) begin
         R_1_num <= 0;
         R_2_num <= 0;
         DR_num <= 0;
-    end else begin
+    end else if(EN) begin
         R_1 <= w_R_1;
         R_2 <= w_R_2;
         R_1_num <= w_R_1_num;
@@ -68,7 +70,7 @@ always @(posedge clk) begin
     if(reset)begin
         PC <= 0;
         PC_plus_4 <= 0;
-    end else begin
+    end else if(EN) begin
         PC <= w_PC;
         PC_plus_4 <= w_PC_plus_4;
     end
@@ -86,7 +88,7 @@ extend SignExtender(
 always @(posedge clk) begin
     if(reset)
         ImmExt <= 0;
-    else
+    else if(EN)
         ImmExt <= w_immext;
 end
 
@@ -130,7 +132,7 @@ always @(posedge clk) begin
         Branch <= 0;
         ALUControl <= 0;
         MemRead <= 0;
-    end else begin
+    end else if(EN) begin
         ResultSrc <= w_ResultSrc;
         MemWrite <= w_MemWrite;
         ALUSrc <= w_ALUSrc;
