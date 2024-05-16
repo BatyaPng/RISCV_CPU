@@ -1,6 +1,7 @@
 `include "PipelineCPU/RegStage.sv"
 `include "PipelineCPU/ALUStage.sv"
 `include "PipelineCPU/DataStage.sv"
+`include "PipelineCPU/DataStage/MemExtender.sv"
 
 
 module PipelineCPU
@@ -33,14 +34,28 @@ assign DS_reset = reset |  MemAssert;
 //Instr_stage
 
 
+
 // Mem Asert
 assign RS_EN = ~MemAssert;
 assign ALU_EN = ~MemAssert;
 assign DS_EN = ~MemAssert;
 
-assign MemData = (MemWrite)? ALU_WriteData: 32'bz; 
+assign MemData = (MemWrite)? ex_ALU_WriteData: 32'bz; 
 
 assign MemoryAdr = (MemAssert)? ({1'b1}, 31{1'b0}) |  ALUResData: PC;
+
+MemExtender MemExtender(
+    .MemWrite(ALU_WriteData),
+    .MemWriteEx(ex_ALU_WriteData),
+
+    .MemRead(MemData),
+    .MemReadex(ex_MemData),
+    .funct3()
+)
+
+wire [31:0] ex_ALU_WriteData;
+wire [31:0] ex_MemData;
+
 
 // Reg_wr_stage
 
@@ -67,12 +82,13 @@ mux3 ResultMux (
 
     .s(DS_ResultSrc),
 
-    .y(DR)
+    .y((MemAssert)? ALU_ALUControl:
+                    3'b010)
 );
 
-
-
 // Reg Stage
+
+assign PC_plus_4 = PC + 4;
 
 wire RS_reset;
 wire RS_EN;
@@ -231,7 +247,7 @@ DataStage DataStage(
     
     .MemAssert(MemAssert),
 
-    .w_ReadData(MemData),
+    .w_ReadData(ex_MemData),
     .ReadData(DS_ReadData),
 
     .ALUResData(DS_ALUResData),
