@@ -29,29 +29,56 @@ module PipelineCPU
 
 assign RS_reset = reset;
 assign ALU_reset = reset;
-assign DS_reset = reset |  MemAssert;
+assign DS_reset = reset |  MemAssert | stall;
+
+//   Dara resolver
+assign R_1_solve = (((RS_R1 == ALU_DR_num) & ALU_RegWrite) & (RS_R1 != 0))? 2'b10:
+                   (((RS_R1 == DS_DR_num) & DS_RegWrite) & (RS_R1 != 0))?   2'b01: 2'b00;
+
+assign R_2_solve = (((RS_R2 == ALU_DR_num) & ALU_RegWrite) & (RS_R2 != 0))? 2'b10:
+                   (((RS_R2 == DS_DR_num) & DS_RegWrite) & (RS_R2 != 0))?   2'b01: 2'b00;
+
+
+assign stall = (RS_ResultSrc[0]) & ((R1_adr == RS_DR_num) | (R1_adr == RS_DR_num));
+
+assign PC_en = ~stall;
+
 
 //Instr_stage
 
+reg [31:0] Instr;
+reg [31:0] Inst_PC;
+reg [31:0] Inst_PC_plus_4;
 
+always @(posedge clk) begin
+    if(reset)begin
+        Instr <= 0;
+        Inst_PC <= 0;
+        Inst_PC_plus_4 <= 0;
+    end else if(~stall) begin
+        Instr <= ex_MemData;
+        Inst_PC <= PC;
+        Inst_PC_plus_4 <= PC_plus_4;
+    end
+end
 
 // Mem Asert
 assign RS_EN = ~MemAssert;
 assign ALU_EN = ~MemAssert;
 assign DS_EN = ~MemAssert;
 
-assign MemData = (MemWrite)? ex_ALU_WriteData: 32'bz; 
+assign MemData = (WriteMemEN)? ex_ALU_WriteData: 32'bz; 
 
-assign MemoryAdr = (MemAssert)? ({1'b1}, 31{1'b0}) |  ALUResData: PC;
+assign MemoryAdr = (MemAssert)? ({1'b1, {31{1'b0}}} |  ALUResData): PC;
 
 MemExtender MemExtender(
     .MemWrite(ALU_WriteData),
     .MemWriteEx(ex_ALU_WriteData),
 
     .MemRead(MemData),
-    .MemReadex(ex_MemData),
-    .funct3()
-)
+    .MemReadEx(ex_MemData),
+    .funct3((MemAssert)? ALU_ALUControl: 3'b010)
+);
 
 wire [31:0] ex_ALU_WriteData;
 wire [31:0] ex_MemData;
@@ -60,11 +87,12 @@ wire [31:0] ex_MemData;
 // Reg_wr_stage
 
 reg [31:0] PC;
+wire PC_en;
 
 always @(posedge clk) begin
     if(reset)
         PC <= 0;
-    else if(~MemAssert) begin // I don't sure
+    else if(~MemAssert & PC_en) begin // I don't sure
         if(ALU_PCSrc)
             PC <= ALU_PCTarget;
         else 
@@ -75,15 +103,14 @@ end
 assign DR_adr = DS_DR_num;
 assign RegWEN = DS_RegWrite;
 
-mux3 ResultMux (
+mux3#(32) ResultMux (
     .d0(DS_ALUResData),
     .d1(MemData),
     .d2(DS_PC_plus_4),
 
     .s(DS_ResultSrc),
 
-    .y((MemAssert)? ALU_ALUControl:
-                    3'b010)
+    .y(DR)
 );
 
 // Reg Stage
@@ -93,10 +120,6 @@ assign PC_plus_4 = PC + 4;
 wire RS_reset;
 wire RS_EN;
 
-wire [31:0] Instr;
-wire [31:0] w_PC;
-wire [31:0] PC_plus_4;
-
 RegStage RegStage (
     .clk(clk),
     .reset(RS_reset),
@@ -104,8 +127,8 @@ RegStage RegStage (
     .EN(RS_EN),
 
     .Instr(Instr),
-    .w_PC(w_PC),
-    .w_PC_plus_4(PC_plus_4),
+    .w_PC(Inst_PC),
+    .w_PC_plus_4(Inst_PC_plus_4),
 
     .w_R_1_num(R1_adr),
     .w_R_2_num(R2_adr),
@@ -139,8 +162,6 @@ wire [31:0] RS_R1;
 wire [31:0] RS_R2;
 wire [4:0] RS_R_1_num;
 wire [4:0] RS_R_2_num;
-wire [4:0] RS_DR_num;
-
 wire [4:0] RS_DR_num;
 
 wire [31:0] RS_ImmExt;
@@ -251,7 +272,7 @@ DataStage DataStage(
     .ReadData(DS_ReadData),
 
     .ALUResData(DS_ALUResData),
-    .PC_plus_4(DS_ALUResData),
+    .PC_plus_4(DS_PC_plus_4),
     .DR_num(DS_DR_num),
 
     .w_ResultSrc(ALU_ResultSrc),

@@ -1,36 +1,70 @@
-module top(input logic clk, reset,
-           output logic [31:0] WriteData, DataAdr,
-           output logic MemWrite
-);
-    
-logic [31:0] PC, Instr, ReadData;
-logic [31:0] ReadData2;
+`include "../src/Memory.sv"
+`include "../src/MemoryControler.sv"
+`include "../src/PipelineCPU.sv"
+`include "../src/Regfile.sv"
 
-cpu cpu(
+module top(input logic clk, reset,
+           output wire [31:0] DataAdr,
+           output wire [19:0] New_adr,
+           output wire  [31:0] MemData,
+           output wire WriteMemEN, ReadMemEN
+);
+
+wire [4:0] R1_adr;
+wire [4:0] R2_adr;
+wire [4:0] DR_adr;
+
+wire [31:0]R1;
+wire [31:0]R2;
+wire [31:0]DR;
+
+wire reg_wen;
+
+PipelineCPU PipelineCPU(
     .clk(clk),
     .reset(reset),
-    .ReadData(ReadData),
-    .Instr(Instr),
 
-    .MemWrite(MemWrite),
-    .PC(PC),
-    .ALUResult(DataAdr),
-    .WriteData(WriteData)
+    .MemData(MemData),
+    .ReadMemEN(ReadMemEN),
+    .WriteMemEN(WriteMemEN),
+    .MemoryAdr(DataAdr),
+    
+    .R1_adr(R1_adr),
+    .R2_adr(R2_adr),
+    .DR_adr(DR_adr),
+
+    .R1(R1),
+    .R2(R2),
+    .DR(DR),
+
+    .RegWEN(reg_wen)
 );
 
-imem imem(
-    .a(PC),
+MemoryControler cont(
+    .MemoryAdr(DataAdr),
+    .Adr(New_adr)
+);
 
-    .rd(Instr)
+regfile reg_f(
+    .clk(clk),
+    .we3(reg_wen),
+
+    .a1(R1_adr),
+    .a2(R2_adr),
+    .a3(DR_adr),
+
+    .wd3(DR),
+
+    .rd1(R1),
+    .rd2(R2)
 );
 
 dmem dmem(
-    .clk(clk), 
-    .we(MemWrite),
-    .a(DataAdr), 
-    .wd(WriteData), 
-    
-    .rd(ReadData)
+    .clk(clk),
+    .we(WriteMemEN),
+    .re(ReadMemEN),
+    .a(New_adr),
+    .data(MemData)
 );
 
 endmodule

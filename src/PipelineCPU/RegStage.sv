@@ -1,5 +1,5 @@
 `include "RegStage/Controller.sv"
-`include "RegStage/SignExtender.sv"
+`include "RegStage/SignExtend.sv"
 
 module RegStage
 (
@@ -78,12 +78,13 @@ end
 
 //SIgnExtender
 wire [31:0] w_immext;
+
 extend SignExtender(
-    .instr(Instr),
+    .instr(Instr[31:7]),
     .immsrc(w_ImmSrc),
 
     .immext(w_immext)
-)
+);
 
 always @(posedge clk) begin
     if(reset)
@@ -105,21 +106,22 @@ wire w_MemRead;
 wire [2:0] w_ImmSrc;
 wire [3:0] w_ALUControl;
 
-maindec Decoder(
+controller Decoder(
     .op(Instr[6:0]), 
     .funct3(Instr[14:12]), 
     .funct7b5(Instr[30]), 
 
     .ResultSrc(w_ResultSrc),
     .MemWrite(w_MemWrite),
+    .PCSrc(w_PCSrc),
     .ALUSrc(w_ALUSrc),
     .RegWrite(w_RegWrite),
     .Jump(w_Jump),
-    .Branch(w_Branch)
+    .Branch(w_Branch),
+    .MemRead(w_MemRead),
     .ImmSrc(w_ImmSrc),
-    .ALUControl(w_ALUControl),
-    .MemRead(w_MemRead)
-)
+    .ALUControl(w_ALUControl)
+);
 
 
 always @(posedge clk) begin

@@ -1,14 +1,19 @@
+`include "Top.sv"
+
 module testbench();
 
 logic clk;
 logic reset;
-logic [31:0] WriteData, DataAdr;
-logic MemWrite;
+wire [31:0] WriteData;
+logic MemWrite, MemRead;
 
 reg [32:0] cnt;
 
+wire [31:0] DataAdr;
+wire [19:0] New_adr;
+
 // инициализация проверяемого устройства
-top dut(clk, reset, WriteData, DataAdr, MemWrite);
+top dut(clk, reset, DataAdr, New_adr, WriteData, MemWrite, MemRead);
 
 // запуск тестбенча
 initial begin
@@ -36,10 +41,10 @@ always @(negedge clk) begin
     end
     
     if(MemWrite) begin
-        if(DataAdr === 100 & WriteData  === 25) begin
+        if(New_adr === {1'b0, 19'd100} & WriteData  === 25) begin
                 $display("Проверка успешно пройдена");
                 $finish;
-            end else if (DataAdr !== 96) begin
+            end else if (New_adr !== {1'b0, 9'd96}) begin
                 $display("Обнаружена ошибка");
                 $finish;
             end
