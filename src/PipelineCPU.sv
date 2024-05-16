@@ -114,7 +114,7 @@ mux3#(32) ResultMux (
 );
 
 // Reg Stage
-
+wire [31:0] PC_plus_4;
 assign PC_plus_4 = PC + 4;
 
 wire RS_reset;
