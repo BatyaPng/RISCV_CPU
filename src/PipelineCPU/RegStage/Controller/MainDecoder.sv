@@ -35,7 +35,7 @@ always_comb begin
         7'b1110011: controls = 13'b1_011_0_0_10_0_00_1_0; // SYSTEM
         7'b0001111: controls = 13'b1_011_0_0_10_0_00_1_0; // MISC-MEM
 
-        default: controls = 13'bx_xxx_x_x_xx_x_xx_x_x; // ???
+        default: controls = 13'b0; // ???
     endcase
 end
 

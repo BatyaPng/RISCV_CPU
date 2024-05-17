@@ -47,7 +47,7 @@ module RegStage
 //RegFile
 assign w_R_1_num = Instr[19:15];
 assign w_R_2_num = Instr[24:20];
-assign w_DR_num  = Instr[11:7 ];
+assign w_DR_num  = Instr[11:6 ]; //TEST TEST TEST!!!!!!!!!
 
 always @(posedge clk) begin
     if(reset)begin

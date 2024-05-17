@@ -136,7 +136,7 @@ always @(posedge clk) begin
     end
 end
 
-assign PCSrc = w_Branch & w_LogOut | w_Jump;
+assign PCSrc = (w_Branch & w_LogOut) | w_Jump;
 
 //Controller
 always @(posedge clk) begin

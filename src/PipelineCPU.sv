@@ -32,11 +32,11 @@ assign ALU_reset = reset;
 assign DS_reset = reset |  MemAssert | stall;
 
 //   Dara resolver
-assign R_1_solve = (((RS_R1 == ALU_DR_num) & ALU_RegWrite) & (RS_R1 != 0))? 2'b10:
-                   (((RS_R1 == DS_DR_num) & DS_RegWrite) & (RS_R1 != 0))?   2'b01: 2'b00;
+assign R_1_solve = (((RS_R_1_num == ALU_DR_num) & ALU_RegWrite) & (RS_R_1_num != 0))? 2'b10:
+                   (((RS_R_1_num == DS_DR_num) & DS_RegWrite) & (RS_R_1_num != 0))?   2'b01: 2'b00;
 
-assign R_2_solve = (((RS_R2 == ALU_DR_num) & ALU_RegWrite) & (RS_R2 != 0))? 2'b10:
-                   (((RS_R2 == DS_DR_num) & DS_RegWrite) & (RS_R2 != 0))?   2'b01: 2'b00;
+assign R_2_solve = (((RS_R_2_num == ALU_DR_num) & ALU_RegWrite) & (RS_R_2_num != 0))? 2'b10:
+                   (((RS_R_2_num == DS_DR_num) & DS_RegWrite) & (RS_R_2_num != 0))?   2'b01: 2'b00;
 
 
 assign stall = (RS_ResultSrc[0]) & ((R1_adr == RS_DR_num) | (R1_adr == RS_DR_num));
@@ -96,7 +96,7 @@ always @(posedge clk) begin
         if(ALU_PCSrc)
             PC <= ALU_PCTarget;
         else 
-            PC <= DS_PC_plus_4;
+            PC <= PC_plus_4;
     end
 end
 
