@@ -25,7 +25,7 @@ MemExtender memex (
 
     .MemWriteEx(WriteData),
     .MemReadEx(ReadDataEx)
-    );
+);
 
 controller cntl(
     .op(Instr[6:0]), 
