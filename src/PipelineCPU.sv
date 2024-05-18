@@ -27,11 +27,12 @@ module PipelineCPU
 
 // Conf_solver
 
-assign RS_reset = reset;
+assign RS_reset = reset | stall | ALU_PCSrc;
 assign ALU_reset = reset;
-assign DS_reset = reset |  MemAssert | stall;
+assign DS_reset = reset; //|  MemAssert | stall;
 
 //   Dara resolver
+
 assign R_1_solve = (((RS_R_1_num == ALU_DR_num) & ALU_RegWrite) & (RS_R_1_num != 0))? 2'b10:
                    (((RS_R_1_num == DS_DR_num) & DS_RegWrite) & (RS_R_1_num != 0))?   2'b01: 2'b00;
 
@@ -51,7 +52,7 @@ reg [31:0] Inst_PC;
 reg [31:0] Inst_PC_plus_4;
 
 always @(posedge clk) begin
-    if(reset)begin
+    if(reset | ALU_PCSrc)begin
         Instr <= 0;
         Inst_PC <= 0;
         Inst_PC_plus_4 <= 0;
@@ -63,9 +64,9 @@ always @(posedge clk) begin
 end
 
 // Mem Asert
-assign RS_EN = ~MemAssert;
-assign ALU_EN = ~MemAssert;
-assign DS_EN = ~MemAssert;
+assign RS_EN = 1;//~MemAssert;
+assign ALU_EN = 1;//~MemAssert;
+assign DS_EN = 1;//~MemAssert;
 
 assign MemData = (WriteMemEN)? ex_ALU_WriteData: 32'bz; 
 
@@ -105,7 +106,7 @@ assign RegWEN = DS_RegWrite;
 
 mux3#(32) ResultMux (
     .d0(DS_ALUResData),
-    .d1(MemData),
+    .d1(DS_ReadData),
     .d2(DS_PC_plus_4),
 
     .s(DS_ResultSrc),
@@ -183,10 +184,10 @@ wire ALU_reset;
 wire ALU_EN;
 
 wire [31:0] ALUResData;
-wire [31:0] DataReadData;
+//wire [31:0] DataReadData;
 
-wire [1:0] R_1_solve;
-wire [1:0] R_2_solve;
+reg [1:0] R_1_solve;
+reg [1:0] R_2_solve;
 
 ALUStage ALUStage(
     .reset(ALU_reset),
@@ -206,7 +207,7 @@ ALUStage ALUStage(
     .w_DR_num(RS_DR_num),
 
     .ALUResData(ALUResData),
-    .DataReadData(DataReadData),
+    .DataReadData(DR),
 
     .R_1_solve(R_1_solve),
     .R_2_solve(R_2_solve),

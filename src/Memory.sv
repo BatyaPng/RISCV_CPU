@@ -6,16 +6,16 @@ module dmem(
     inout [31:0] data
 );
 
-reg [31:0] RAM [2000:0];
+reg [31:0] RAM [$pow(2, 19):0];
 assign rd = RAM[a[19:2]]; // выравнивание по слову
 
 always @(posedge clk)
     if (we)
-        RAM[a[31:2]] <= data;
+        RAM[a[19:2]] <= data;
 
 initial
     $readmemh("../test/riscvtest", RAM, 0, 19);
 
-assign data = (rd)? RAM[a[11:2]]: 32'bz; // word aligned
+assign data = (re)? RAM[a[19:2]]: 32'bz; // word aligned
 
 endmodule

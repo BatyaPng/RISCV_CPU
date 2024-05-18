@@ -29,6 +29,8 @@ always begin
     clk <= 1; # 5; clk <= 0; # 5;
 end
 
+wire [18:0] ADR = New_adr[18:0];
+
 // проверка результата
 always @(negedge clk) begin
     
@@ -41,10 +43,10 @@ always @(negedge clk) begin
     end
     
     if(MemWrite) begin
-        if(New_adr === {1'b0, 19'd100} & WriteData  === 25) begin
+        if(New_adr === {1'b1, 19'd100} & WriteData  === 25) begin
                 $display("Проверка успешно пройдена");
                 $finish;
-            end else if (New_adr !== {1'b0, 9'd96}) begin
+            end else if (New_adr !== {1'b1, 19'd96}) begin
                 $display("Обнаружена ошибка");
                 $finish;
             end
