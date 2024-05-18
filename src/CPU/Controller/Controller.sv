@@ -1,3 +1,8 @@
+`ifndef RELEASE
+    `include "./MainDecoder.sv"
+    `include "./AluDecoder.sv"
+`endif
+
 module controller(
     input [6:0] op,
     input [2:0] funct3,

@@ -1,3 +1,7 @@
+`ifndef RELEASE
+    `include "../src/CPU/CPU.sv"
+`endif 
+
 module top(input logic clk, reset,
            output logic [31:0] WriteData, DataAdr,
            output logic MemWrite

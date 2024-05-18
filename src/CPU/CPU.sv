@@ -1,3 +1,8 @@
+`ifndef RELEASE
+    `include "./Controller/Controller.sv"
+    `include "./DataPath/DataPath.sv"
+`endif
+
 module cpu(
     input clk, 
     input reset,
@@ -17,15 +22,6 @@ wire [3:0] ALUControl;
 
 wire [31:0] WriteDataPreEx;
 wire [31:0] ReadDataEx;
-
-MemExtender memex (
-    .MemWrite(WriteDataPreEx),
-    .MemRead(ReadData),
-    .funct3(Instr[14:12]),
-
-    .MemWriteEx(WriteData),
-    .MemReadEx(ReadDataEx)
-);
 
 controller cntl(
     .op(Instr[6:0]), 

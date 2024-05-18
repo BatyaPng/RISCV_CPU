@@ -1,3 +1,14 @@
+`ifndef RELEASE
+    `include "../../CommonUnits/FlopReset.sv"
+    `include "../../CommonUnits/Adder.sv"
+    `include "../../CommonUnits/Multiplexer2.sv"
+    `include "../../CommonUnits/Multiplexer4.sv"
+    `include "./BranchLogic.sv"
+    `include "./Regfile.sv"
+    `include "./SignExtend.sv"
+    `include "./Alu.sv"
+`endif
+
 module datapath(
     input clk, 
     input reset,

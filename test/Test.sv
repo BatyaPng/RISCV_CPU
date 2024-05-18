@@ -1,3 +1,7 @@
+`ifndef RELEASE
+`include "./Top.sv"
+`endif
+
 module testbench();
 
 logic clk;
