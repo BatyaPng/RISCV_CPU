@@ -39,7 +39,7 @@ assign R_2_solve = (((RS_R_2_num == ALU_DR_num) & ALU_RegWrite) & (RS_R_2_num !=
                    (((RS_R_2_num == DS_DR_num) & DS_RegWrite) & (RS_R_2_num != 0))?   2'b01: 2'b00;
 
 
-assign stall = (RS_ResultSrc[0]) & ((R1_adr == RS_DR_num) | (R1_adr == RS_DR_num));
+assign stall = (RS_ResultSrc[0]) & ((R1_adr == RS_DR_num) | (R2_adr == RS_DR_num));
 
 assign PC_en = ~stall;
 
@@ -141,7 +141,7 @@ RegStage RegStage (
     .R_2_num(RS_R_2_num),
     .DR_num(RS_DR_num),
 
-    .w_DR_num(RS_DR_num),
+    //.w_DR_num(RS_DR_num),
 
     .ImmExt(RS_ImmExt),
 

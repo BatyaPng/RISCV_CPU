@@ -25,7 +25,7 @@ module RegStage
     output reg [4:0] R_2_num,
     output reg [4:0] DR_num,
 
-    output wire [4:0] w_DR_num, //for Conflict Resolver
+    //output wire [4:0] w_DR_num, //for Conflict Resolver
 
     output reg [31:0] ImmExt,
 
@@ -45,9 +45,11 @@ module RegStage
 );
 
 //RegFile
+wire w_DR_num = Instr[11:7];
+
 assign w_R_1_num = Instr[19:15];
 assign w_R_2_num = Instr[24:20];
-assign w_DR_num  = Instr[11:6 ]; //TEST TEST TEST!!!!!!!!!
+assign w_DR_num  = Instr[11:7];
 
 always @(posedge clk) begin
     if(reset)begin
@@ -61,7 +63,7 @@ always @(posedge clk) begin
         R_2 <= w_R_2;
         R_1_num <= w_R_1_num;
         R_2_num <= w_R_2_num;
-        DR_num  <= w_DR_num;
+        DR_num  <= w_DR_num
     end
 end
 
