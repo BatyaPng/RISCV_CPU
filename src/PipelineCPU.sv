@@ -40,7 +40,7 @@ assign R_2_solve = (((RS_R_2_num == ALU_DR_num) & ALU_RegWrite) & (RS_R_2_num !=
                    (((RS_R_2_num == DS_DR_num) & DS_RegWrite) & (RS_R_2_num != 0))?   2'b01: 2'b00;
 
 
-assign stall = (RS_ResultSrc[0]) & ((R1_adr == RS_DR_num) | (R2_adr == RS_DR_num));
+assign stall = ((RS_ResultSrc[0]) & ((R1_adr == RS_DR_num) | (R2_adr == RS_DR_num))) | MemAssert;
 
 assign PC_en = ~stall;
 
@@ -93,7 +93,7 @@ wire PC_en;
 always @(posedge clk) begin
     if(reset)
         PC <= 0;
-    else if(~MemAssert & PC_en) begin // I don't sure
+    else if(/*~MemAssert & */PC_en | ALU_PCSrc) begin // I don't sure
         if(ALU_PCSrc)
             PC <= ALU_PCTarget;
         else 
