@@ -4,16 +4,17 @@ module testbench();
 
 logic clk;
 logic reset;
-wire [31:0] WriteData;
-logic MemWrite, MemRead;
 
-reg [32:0] cnt;
+reg [31:0] cnt;
 
-wire [31:0] DataAdr;
 wire [19:0] New_adr;
+wire [15:0] MemData;
+wire MemWrite;
+wire MemRead;
+
 
 // инициализация проверяемого устройства
-top dut(clk, reset, DataAdr, New_adr, WriteData, MemWrite, MemRead);
+top dut(clk, reset, New_adr, MemData, MemWrite, MemRead);
 
 // запуск тестбенча
 initial begin
@@ -29,8 +30,6 @@ always begin
     clk <= 1; # 5; clk <= 0; # 5;
 end
 
-wire [18:0] ADR = New_adr[18:0];
-
 // проверка результата
 always @(negedge clk) begin
     
@@ -41,16 +40,14 @@ always @(negedge clk) begin
     if(cnt == 1000) begin
         $finish;
     end
-    
-    if(MemWrite) begin
-        if(New_adr === {1'b1, 19'd100} & WriteData  === 25) begin
-                $display("Проверка успешно пройдена");
-                $finish;
-            end else if (New_adr !== {1'b1, 19'd96}) begin
-                $display("Обнаружена ошибка");
-                $finish;
-            end
-    end
 end
+
+dmem dmem (
+    .clk(clk),
+    .we(MemWrite),
+    .re(MemRead),
+    .a(New_adr),
+    .data(MemData)
+);
 
 endmodule
