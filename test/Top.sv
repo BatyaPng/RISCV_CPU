@@ -6,14 +6,15 @@
 module top(input logic clk, reset,
            output wire [19:0] New_adr,
            inout  wire [15:0] MemData,
-           output wire WriteMemEN, ReadMemEN //,
+           output wire WriteMemEN, ReadMemEN,
 
-            /*
+            
            output wire [6:0] seg [7:0],
+
            output wire CE,
            output wire UB,
            output wire LB
-            */
+            
 );
 
 assign CE = 1;
@@ -98,7 +99,8 @@ MemoryControler cont(
     .MemoryAdr(DataAdr),
     .MemoryData(out_MemData),
     .wen(WriteMemEN),
-    .Adr(out_New_adr)
+    .Adr(out_New_adr),
+    .out_data(seg)
 );
 
 regfile reg_f(

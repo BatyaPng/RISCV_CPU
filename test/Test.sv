@@ -12,9 +12,14 @@ wire [15:0] MemData;
 wire MemWrite;
 wire MemRead;
 
+wire [6:0] seg [7:0];
+
+wire CE;
+wire UB;
+wire LB;
 
 // инициализация проверяемого устройства
-top dut(clk, reset, New_adr, MemData, MemWrite, MemRead);
+top dut(clk, reset, New_adr, MemData, MemWrite, MemRead, seg, CE, UB, LB);
 
 // запуск тестбенча
 initial begin
