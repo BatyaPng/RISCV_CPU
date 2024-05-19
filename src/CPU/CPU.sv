@@ -24,15 +24,6 @@ wire [3:0] ALUControl;
 wire [31:0] WriteDataPreEx;
 wire [31:0] ReadDataEx;
 
-MemExtender memex (
-    .MemWrite(WriteDataPreEx),
-    .MemRead(ReadData),
-    .funct3(Instr[14:12]),
-
-    .MemWriteEx(WriteData),
-    .MemReadEx(ReadDataEx)
-);
-
 
 controller cntl(
     .op(Instr[6:0]), 
@@ -60,12 +51,12 @@ datapath dp(
     .ImmSrc(ImmSrc),
     .ALUControl(ALUControl),
     .Instr(Instr),
-    .ReadData(ReadDataEx),
+    .ReadData(ReadData),
     
     .LogOut(LogOut),
     .PC(PC),
     .ALUResult(ALUResult),
-    .WriteData(WriteDataPreEx)
+    .WriteData(WriteData)
 );
 
 endmodule
