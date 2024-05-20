@@ -40,7 +40,8 @@ module RegStage
     output reg Jump,
     output reg Branch,
     output reg [3:0] ALUControl,
-    output reg MemRead
+    output reg MemRead,
+    output reg [2:0] funct3
 
 );
 
@@ -135,6 +136,7 @@ always @(posedge clk) begin
         Branch <= 0;
         ALUControl <= 0;
         MemRead <= 0;
+        funct3 <= 0;
     end else if(EN) begin
         ResultSrc <= w_ResultSrc;
         MemWrite <= w_MemWrite;
@@ -144,6 +146,7 @@ always @(posedge clk) begin
         Branch <= w_Branch;
         ALUControl <= w_ALUControl;
         MemRead <= w_MemRead;
+        funct3 <= Instr[14:12];
     end
 end
 

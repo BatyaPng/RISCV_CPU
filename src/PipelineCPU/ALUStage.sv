@@ -45,13 +45,15 @@ module ALUStage
     input wire w_Branch,
     input wire [3:0] w_ALUControl,
     input wire w_MemRead,
+    input wire [2:0] w_funct3,
 
 
     output reg [1:0] ResultSrc,
     output reg MemWrite, 
     output reg RegWrite,
     output reg MemRead,
-    output reg [2:0] ALUControl
+    output reg [2:0] funct3
+
 );
 
 //ALU
@@ -145,13 +147,13 @@ always @(posedge clk) begin
         ResultSrc <= 0;
         MemWrite <= 0;
         MemRead <= 0;
-        ALUControl <= 0;
+        funct3 <= 0;
     end else if(EN) begin
         RegWrite <= w_RegWrite;
         ResultSrc <= w_ResultSrc;
         MemWrite <= w_MemWrite;
         MemRead <= w_MemRead;
-        ALUControl <= w_ALUControl[2:0];
+        funct3 <= w_funct3;
     end
 end
 

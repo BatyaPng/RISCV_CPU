@@ -1,0 +1,29 @@
+main:
+addi x1, x0, 128+5
+addi x2, x0, 128+10 
+addi x3, x0, 15 
+addi x4, x0, 20
+addi x5, x0, 0
+slli x6, x4, 24
+add x5, x5, x6
+slli x6, x3, 16
+add x5, x5, x6
+slli x6, x2, 8
+add x5, x5, x6
+slli x6, x1, 0
+add x5, x5, x6
+sb x5, 0(x0) #print 133
+sh x5, 0(x0) #print 35461
+sw x5, 0(x0) #print 336562821
+sw x5, 4(x0)
+lb x6, 4(x0)
+sw x6, 0(x0) #print 133
+lh x6, 4(x0)
+sw x6, 0(x0) #print 35461
+lw x6, 4(x0)
+sw x6, 0(x0) #print 336562821
+lbu x6, 4(x0)
+sw x6, 0(x0)  #print 4294967173
+lhu x6, 4(x0)
+sw x6, 0(x0)  #print 4294937221
+loop: jal loop 
