@@ -116,14 +116,4 @@ regfile reg_f(
     .rd2(R2)
 );
 
-
-dmem dmem(
-    .clk(clk),
-    .we(w_WriteMemEN),
-    .re(w_ReadMemEN),
-    .a(New_adr),
-    .data(MemData)
-);
-
-
 endmodule
