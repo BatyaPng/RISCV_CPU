@@ -78,7 +78,7 @@ MemExtender MemExtender(
 
     .MemRead(MemData),
     .MemReadEx(ex_MemData),
-    .funct3((MemAssert)? ALU_ALUControl: 3'b010)
+    .funct3((MemAssert)? ALU_funct3: 3'b010)
 );
 
 wire [31:0] ex_ALU_WriteData;
@@ -156,7 +156,8 @@ RegStage RegStage (
     .Jump(RS_Jump),
     .Branch(RS_Branch),
     .ALUControl(RS_ALUControl),
-    .MemRead(RS_MemRead)
+    .MemRead(RS_MemRead),
+    .funct3(RS_funct3)
 );
 
 wire [31:0] RS_R1;
@@ -178,6 +179,7 @@ wire RS_Jump;
 wire RS_Branch;
 wire [3:0] RS_ALUControl;
 wire RS_MemRead;
+wire [2:0] RS_funct3;
 
 // ALU Stage
 wire ALU_reset;
@@ -230,12 +232,13 @@ ALUStage ALUStage(
     .w_Branch(RS_Branch),
     .w_ALUControl(RS_ALUControl),
     .w_MemRead(RS_MemRead),
+    .w_funct3(RS_funct3),
 
     .ResultSrc(ALU_ResultSrc),
     .MemWrite(ALU_MemWrite),
     .RegWrite(ALU_RegWrite),
     .MemRead(ALU_MemRead),
-    .ALUControl(ALU_ALUControl)
+    .funct3(ALU_funct3)
 );
 
 wire [4:0] ALU_DR_num;
@@ -250,7 +253,7 @@ wire [1:0] ALU_ResultSrc;
 wire ALU_MemWrite;
 wire ALU_RegWrite;
 wire ALU_MemRead;
-wire [2:0] ALU_ALUControl;
+wire [2:0] ALU_funct3;
 
 // DataStage
 wire DS_reset;

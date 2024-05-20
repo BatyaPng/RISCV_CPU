@@ -14,7 +14,7 @@ always @(posedge clk)
         RAM[a[19:1]] <= data;
 
 initial
-    $readmemh("../test/riscvtest", RAM, 0, 41);
+    $readmemh("../test/tests/memtest", RAM, 0, 27*2 - 1);
 
 assign data = (re)? RAM[a[19:1]]: 32'bz; // word aligned
 
