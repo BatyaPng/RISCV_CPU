@@ -49,8 +49,11 @@ end
 
 dmem dmem (
     .clk(clk),
-    .we(MemWrite),
-    .re(MemRead),
+    .WE(MemWrite),
+    .OE(MemRead),
+    .LB(LB),
+    .CE(CE),
+    .UB(UB),
     .a(New_adr),
     .data(MemData)
 );

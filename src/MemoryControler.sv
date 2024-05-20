@@ -8,11 +8,10 @@ module MemoryControler(
     output wire [6:0] out_data [7:0]
 );
 
-//assign Adr = {MemoryAdr[31], MemoryAdr[18:0]};
-assign Adr = {MemoryAdr[19:0]};
+assign Adr = {MemoryAdr[31], MemoryAdr[19:1]};
 reg [31:0] LocalMem = 0;
 wire [31:0] print_adr_1 = ((32'b1 << 31) | 32'h64);
-wire [31:0] print_adr_2 = ((32'b0 << 31) | 32'h0);
+wire [31:0] print_adr_2 = ((32'b1 << 31) | 32'h0);
 
 always @(posedge clk) begin
     if (((MemoryAdr == print_adr_1) | (MemoryAdr == print_adr_2)) & wen) begin

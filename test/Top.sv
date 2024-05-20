@@ -5,7 +5,7 @@
 
 module top(input logic clk, reset,
            output wire [19:0] New_adr,
-           //inout  wire [15:0] MemData,
+           inout  wire [15:0] MemData,
            output wire WriteMemEN, ReadMemEN,
 
             
@@ -17,8 +17,8 @@ module top(input logic clk, reset,
             
 );
 
-assign WriteMemEN = w_WriteMemEN;
-assign ReadMemEN = w_ReadMemEN;
+assign WriteMemEN = ~w_WriteMemEN;
+assign ReadMemEN = ~w_ReadMemEN;
 
 assign CE = ~1'b1;
 assign UB = ~1'b1;
@@ -52,19 +52,24 @@ end
 
 always @(posedge clk) begin
     if(conf_reset) begin
-        r_data <= 0;
         good_reset <= conf_reset;
-    end else if(i == 0) begin
-        r_data <= MemData;
     end else if (i == 1)
         good_reset <= conf_reset;
 end
 
-assign MemData = (w_WriteMemEN)? (i)? out_MemData[15:0]: out_MemData[31:16] : 16'bz;
+always @(posedge clk) begin
+    if(conf_reset & ~w_ReadMemEN) begin
+        r_data <= 0;
+    end else if(i == 0) begin
+        r_data <= MemData;
+    end
+end
+
+assign MemData = (w_WriteMemEN)? ((i)? out_MemData[15:0]: out_MemData[31:16]) : 16'bz;
 
 assign out_MemData = (w_ReadMemEN)? {{r_data}, {MemData}}: 32'bz;
 
-assign New_adr = out_New_adr + (i << 1);
+assign New_adr = out_New_adr + (i);
 
 wire w_ReadMemEN;
 wire w_WriteMemEN;
