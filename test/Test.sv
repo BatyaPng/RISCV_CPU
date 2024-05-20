@@ -8,7 +8,7 @@ logic reset;
 reg [31:0] cnt;
 
 wire [19:0] New_adr;
-wire [15:0] MemData;
+//wire [15:0] MemData;
 wire MemWrite;
 wire MemRead;
 
@@ -19,7 +19,7 @@ wire UB;
 wire LB;
 
 // инициализация проверяемого устройства
-top dut(clk, reset, New_adr, MemData, MemWrite, MemRead, seg, CE, UB, LB);
+top dut(clk, reset, New_adr, /*MemData,*/ MemWrite, MemRead, seg, CE, UB, LB);
 
 // запуск тестбенча
 initial begin
@@ -47,6 +47,7 @@ always @(negedge clk) begin
     end
 end
 
+/*
 dmem dmem (
     .clk(clk),
     .we(MemWrite),
@@ -54,5 +55,6 @@ dmem dmem (
     .a(New_adr),
     .data(MemData)
 );
+*/
 
 endmodule

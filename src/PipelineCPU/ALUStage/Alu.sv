@@ -27,6 +27,7 @@ always_comb begin
         4'b1101: ALUResult = $signed(SrcA) >> SrcB;                      //SRA
         //nothing
         4'b1111: ALUResult = SrcB;                                        //imm
+        default: ALUResult = 0;
     endcase
 end
 

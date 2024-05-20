@@ -1,24 +1,28 @@
-module MemoryControler(
+module MemoryControler#(
+    parameter ADR_LEN = 20
+)
+(
     input wire clk,
     input wire [31:0] MemoryAdr,
     input wire [31:0] MemoryData,
     input wire wen,
 
-    output wire [19:0] Adr,
+    output wire [ADR_LEN:0] Adr,
     output wire [6:0] out_data [7:0]
 );
 
-assign Adr = {MemoryAdr[31], MemoryAdr[18:0]};
+assign Adr = {MemoryAdr[31], MemoryAdr[ADR_LEN -2:0]};
 
-reg [31:0] LocalMem = 0;
+reg [31:0] LocalMem;
 wire [31:0] print_adr_1 = ((32'b1 << 31) | 32'h64);
 wire [31:0] print_adr_2 = ((32'b1 << 31) | 32'h0);
 
 always @(posedge clk) begin
     if (((MemoryAdr == print_adr_1) | (MemoryAdr == print_adr_2)) & wen) begin
         $display("Data %d", MemoryData);
-        LocalMem <= MemoryData;
+        //LocalMem <= MemoryData;
     end
+    LocalMem <= MemoryData;
 end
 
 hex_to_7seg sed_0 (LocalMem[3:0],   out_data[0]);

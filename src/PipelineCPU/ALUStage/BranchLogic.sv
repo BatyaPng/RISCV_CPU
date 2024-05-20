@@ -17,6 +17,7 @@ always_comb begin
         3'b101: Out = $signed(SrcA) > $signed(SrcB); //BGE
         3'b110: Out = $unsigned(SrcA) < $unsigned(SrcB); //BLTU
         3'b111: Out = $unsigned(SrcA) > $unsigned(SrcB); //BGEU
+        default: Out = 0;
     endcase
 end
 
