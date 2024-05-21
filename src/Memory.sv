@@ -20,11 +20,12 @@ wire [4:0] write_list = {WE, CE, 1'b0, LB, UB};
 wire [31:0] data_A = {RAM[20'h80030], RAM[20'h80031]};
 
 always @(posedge clk)
-    if (write_list == 5'b00001)
-        RAM[a][15:8] <= data[15:8];
-    else if (write_list == 5'b00010)
-        RAM[a][15:8] <= data[7:0];
-    else if (write_list == 5'b00000)
+    // if (write_list == 5'b00001)
+    //     RAM[a][15:8] <= data[15:8];
+    // else if (write_list == 5'b00010)
+    //     RAM[a][7:0] <= data[7:0];
+    // else 
+    if (write_list == 5'b00000)
         RAM[a] <= data[15:0];
 
 initial begin
