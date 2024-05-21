@@ -28,7 +28,7 @@ always @(posedge clk)
         RAM[a] <= data[15:0];
 
 initial begin
-    $readmemh("../test/riscvtest", RAM, 0, 21*2 - 1);
+    $readmemh("../test/ltest", RAM, 0, 24*2 - 1);
 end
 
 assign data = ((write_list == 5'b00001) | (write_list == 5'b00010) | (write_list == 5'b00000))? 32'bz:
