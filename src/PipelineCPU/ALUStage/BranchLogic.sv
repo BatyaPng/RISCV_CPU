@@ -9,8 +9,10 @@ module BranchLogic (
 reg Out;
 assign LogOut = Out;
 
+wire [2:0] BranchControl = ALUControl[2:0];
+
 always_comb begin
-    case(ALUControl)
+    case(BranchControl)
         3'b000: Out = SrcA == SrcB; //BEQ
         3'b001: Out = SrcA != SrcB; //BNE
         3'b100: Out = $signed(SrcA) < $signed(SrcB); //BLT

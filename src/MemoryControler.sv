@@ -10,10 +10,11 @@ module MemoryControler(
 
 assign Adr = {MemoryAdr[31], MemoryAdr[19:1]};
 reg [31:0] LocalMem = 0;
-wire [31:0] print_adr_1 = ((32'b1 << 31) | 32'h64);
+wire [31:0] print_adr_1 = ((32'b1 << 31) | 32'h0);//((32'b1 << 31) | 32'h64);
 wire [31:0] print_adr_2 = ((32'b1 << 31) | 32'h0);
 
 always @(posedge clk) begin
+    if(wen) $display("Wadr: %h WData %h", MemoryAdr, MemoryData);
     if (((MemoryAdr == print_adr_1) | (MemoryAdr == print_adr_2)) & wen) begin
         $display("Data %d", MemoryData);
         LocalMem <= MemoryData;

@@ -65,7 +65,7 @@ always @(posedge clk) begin
     end
 end
 
-assign MemData = (w_WriteMemEN)? ((i)? out_MemData[15:0]: out_MemData[31:16]) : 16'bz;
+assign MemData = (w_WriteMemEN)? ((~i == 1)? out_MemData[15:0]: out_MemData[31:16]) : 16'bz;
 
 assign out_MemData = (w_ReadMemEN)? {{r_data}, {MemData}}: 32'bz;
 
