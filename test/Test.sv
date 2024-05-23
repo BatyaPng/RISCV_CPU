@@ -27,7 +27,7 @@ initial begin
     $dumpvars(0, testbench);
     
     cnt <= 32'b0;
-    #1 reset <= 0; #1 reset <= 1; # 22; reset <= 0;
+    #1 reset <= 1; #1 reset <= 0; # 22; reset <= 1;
 end
 
 // генерация тактовых импульсов

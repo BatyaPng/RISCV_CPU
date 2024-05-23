@@ -37,7 +37,7 @@ wire reg_wen;
 reg i;
 wire clk_div_2 = ~i;
 
-wire conf_reset = reset;
+wire conf_reset = ~reset;
 reg good_reset;
 wire [31:0] out_MemData;
 
