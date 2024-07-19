@@ -1,7 +1,7 @@
 `include "RegStage/Controller.sv"
 `include "RegStage/SignExtend.sv"
 
-module RegStage
+module DecodeStage
 (
     input wire reset,
     input wire clk,

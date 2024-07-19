@@ -25,13 +25,13 @@ module PipelineCPU
     output wire RegWEN
 );
 
-// Conf_solver
+// Conflict solver
 
-assign RS_reset = reset | stall | ALU_PCSrc;
+assign RS_reset  = reset | stall | ALU_PCSrc;
 assign ALU_reset = reset;
-assign DS_reset = reset; //|  MemAssert | stall;
+assign DS_reset  = reset; //|  MemAssert | stall;
 
-//   Dara resolver
+// Data resolver
 
 assign R_1_solve = (((RS_R_1_num == ALU_DR_num) & ALU_RegWrite) & (RS_R_1_num != 0))? 2'b10:
                    (((RS_R_1_num == DS_DR_num) & DS_RegWrite) & (RS_R_1_num != 0))?   2'b01: 2'b00;
@@ -45,7 +45,7 @@ assign stall = ((RS_ResultSrc[0]) & ((R1_adr == RS_DR_num) | (R2_adr == RS_DR_nu
 assign PC_en = ~stall;
 
 
-//Instr_stage
+// Fetch
 
 reg [31:0] Instr;
 reg [31:0] Inst_PC;
@@ -64,11 +64,11 @@ always @(posedge clk) begin
 end
 
 // Mem Asert
-assign RS_EN = 1;//~MemAssert;
-assign ALU_EN = 1;//~MemAssert;
-assign DS_EN = 1;//~MemAssert;
+assign RS_EN  = 1; //~MemAssert;
+assign ALU_EN = 1; //~MemAssert;
+assign DS_EN  = 1; //~MemAssert;
 
-assign MemData = (WriteMemEN)? ex_ALU_WriteData: 32'bz; 
+assign MemData = (WriteMemEN) ? ex_ALU_WriteData : 32'bz; 
 
 assign MemoryAdr = (MemAssert)? ({1'b1, {31{1'b0}}} |  ALUResData): PC;
 
@@ -85,7 +85,7 @@ wire [31:0] ex_ALU_WriteData;
 wire [31:0] ex_MemData;
 
 
-// Reg_wr_stage
+// Memory
 
 reg [31:0] PC;
 wire PC_en;
@@ -93,8 +93,8 @@ wire PC_en;
 always @(posedge clk) begin
     if(reset)
         PC <= 0;
-    else if(/*~MemAssert & */PC_en | ALU_PCSrc) begin // I don't sure
-        if(ALU_PCSrc)
+    else if (PC_en | ALU_PCSrc) begin
+        if (ALU_PCSrc)
             PC <= ALU_PCTarget;
         else 
             PC <= PC_plus_4;
@@ -114,7 +114,7 @@ mux3#(32) ResultMux (
     .y(DR)
 );
 
-// Reg Stage
+// Memory Stage
 wire [31:0] PC_plus_4;
 assign PC_plus_4 = PC + 4;
 
@@ -141,8 +141,6 @@ RegStage RegStage (
     .R_1_num(RS_R_1_num),
     .R_2_num(RS_R_2_num),
     .DR_num(RS_DR_num),
-
-    //.w_DR_num(RS_DR_num),
 
     .ImmExt(RS_ImmExt),
 
@@ -181,17 +179,16 @@ wire [3:0] RS_ALUControl;
 wire RS_MemRead;
 wire [2:0] RS_funct3;
 
-// ALU Stage
+// Execute
 wire ALU_reset;
 wire ALU_EN;
 
 wire [31:0] ALUResData;
-//wire [31:0] DataReadData;
 
 reg [1:0] R_1_solve;
 reg [1:0] R_2_solve;
 
-ALUStage ALUStage(
+Execute ExecuteStage(
     .reset(ALU_reset),
     .clk(clk),
 
@@ -255,11 +252,11 @@ wire ALU_RegWrite;
 wire ALU_MemRead;
 wire [2:0] ALU_funct3;
 
-// DataStage
+// Memory Stage
 wire DS_reset;
 wire DS_EN;
 
-DataStage DataStage(
+Memory MemoryStage(
     .reset(DS_reset),
     .clk(clk),
 

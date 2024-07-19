@@ -3,7 +3,7 @@
 `include "AdditionalUnits/Multiplexer3.sv"
 `include "AdditionalUnits/Multiplexer2.sv"
 
-module ALUStage
+module ExecuteStage
 (
     input wire reset,
     input wire clk,
